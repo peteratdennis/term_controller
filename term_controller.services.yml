@@ -1,5 +1,14 @@
 services:
   term_controller.kernel_subscriber:
     class: Drupal\term_controller\EventSubscriber\KernelSubscriber
+    arguments: ['@term_controller.control_switcher']
     tags:
       - { name: 'event_subscriber' }
+  term_controller.control_switcher:
+    class: Drupal\term_controller\ControlSwitcher
+    arguments: ['@controller_resolver']
+  term_controller.path.inbound:
+      class: Drupal\term_controller\PathProcessor\Inbound
+      arguments: ['@path.alias_manager']
+      tags:
+        - { name: path_processor_inbound, priority: 0 }

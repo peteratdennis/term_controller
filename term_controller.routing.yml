@@ -1,0 +1,7 @@
+term_controller.node.view:
+  path: '/term_controller/{node}'
+  defaults:
+    _controller: '\Drupal\term_controller\Controller\TermViewController::view'
+    _title: '\Drupal\term_controller\Controller\TermViewController::title'
+  requirements:
+    _entity_access: 'node.view'

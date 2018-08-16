@@ -3,6 +3,7 @@
 namespace Drupal\term_controller\EventSubscriber;
 
 use Drupal\Core\Routing\RouteMatch;
+use Drupal\term_controller\ControlSwitcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -14,11 +15,31 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class KernelSubscriber implements EventSubscriberInterface {
 
   /**
+   * The control switcher
+   *
+   * @var \Drupal\term_controller\ControlSwitcher
+   */
+  protected $switcher;
+
+  /**
+   * KernelSubscriber constructor.
+   *
+   * @TODO: ControlSwitcherInterface
+   * @param \Drupal\term_controller\ControlSwitcher $switcher
+   */
+  public function __construct(ControlSwitcher $switcher) {
+    $this->switcher = $switcher;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    $events[KernelEvents::REQUEST][] = array('onRequest', 50);
-    $events[KernelEvents::CONTROLLER][] = array('onController', 50);
+    //$events[KernelEvents::REQUEST][] = array('onRequest', 50);
+
+    // Run after EarlyRenderingControllerWrapperSubscriber
+    // as it bypasses the HttpKernel argumentResolver
+    $events[KernelEvents::CONTROLLER][] = array('onController', -50);
     return $events;
   }
 
@@ -38,9 +59,23 @@ class KernelSubscriber implements EventSubscriberInterface {
    *   The Event to process.
    */
   public function onController(FilterControllerEvent $event) {
+
+
+    return;
+
+//var_dump(__FILE__); exit;
+
     //var_dump($event->getController()); exit;
+
     $route_match = RouteMatch::createFromRequest($event->getRequest());
-    var_dump($route_match); exit;
+    // See if the controller needs switching if this is a term page.
+    //if ($route_match->getRouteName() == 'entity.taxonomy_term.canonical') {
+      $controller = $this->switcher->getController($route_match);
+    //}
+
+
+    //var_dump($controller); exit;
+    $event->setController($controller);
   }
 
 }
