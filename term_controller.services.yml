@@ -1,0 +1,5 @@
+services:
+  term_controller.kernel_subscriber:
+    class: Drupal\term_controller\EventSubscriber\KernelSubscriber
+    tags:
+      - { name: 'event_subscriber' }

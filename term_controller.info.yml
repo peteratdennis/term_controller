@@ -1,0 +1,5 @@
+name: 'Term Controller'
+type: module
+description: 'Change the controller for a term to be other than the core default'
+core: 8.x
+package: 'Custom'

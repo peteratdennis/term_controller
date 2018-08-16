@@ -1,0 +1,14 @@
+{
+  "name": "drupal/term_controller",
+  "type": "drupal-module",
+  "description": "Change the controller for a term to be other than the core default",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/term_controller",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/term_controller",
+    "source": "http://cgit.drupalcode.org/term_controller"
+  },
+  "require": { }
+}

@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains term_controller.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function term_controller_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the term_controller module.
+    case 'help.page.term_controller':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Change the controller for a term to be other than the core default') . '</p>';
+      return $output;
+
+    default:
+  }
+}
