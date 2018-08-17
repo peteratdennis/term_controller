@@ -32,24 +32,14 @@ class KernelSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * {@inheritdoc}
-   */
-  public static function getSubscribedEvents() {
-    //$events[KernelEvents::REQUEST][] = array('onRequest', 50);
-
-    // Run after EarlyRenderingControllerWrapperSubscriber
-    // as it bypasses the HttpKernel argumentResolver
-    $events[KernelEvents::CONTROLLER][] = array('onController', -50);
-    return $events;
-  }
-
-  /**
    *
    *
    * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
    */
   public function onRequest(GetResponseEvent $event) {
     //var_dump($event->getRequest()->attributes->get('_controller')); exit;
+    //$event->getRequest()->attributes->add(['_disable_route_normalizer' => TRUE]);
+    //var_dump(__LINE__);
   }
 
   /**
@@ -76,6 +66,19 @@ class KernelSubscriber implements EventSubscriberInterface {
 
     //var_dump($controller); exit;
     $event->setController($controller);
+  }
+
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getSubscribedEvents() {
+    $events[KernelEvents::REQUEST][] = array('onRequest', 50);
+
+    // Run after EarlyRenderingControllerWrapperSubscriber
+    // as it bypasses the HttpKernel argumentResolver
+    $events[KernelEvents::CONTROLLER][] = array('onController', -50);
+    return $events;
   }
 
 }

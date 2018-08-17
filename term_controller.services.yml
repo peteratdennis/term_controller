@@ -11,4 +11,5 @@ services:
       class: Drupal\term_controller\PathProcessor\Inbound
       arguments: ['@path.alias_manager']
       tags:
+        - { name: 'event_subscriber' }
         - { name: path_processor_inbound, priority: 0 }
